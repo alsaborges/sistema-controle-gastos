@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from src.models.investment import Gasto
-from src.database import db
+from src.models.user import db
 from datetime import datetime, date
 from sqlalchemy import func, extract
 

@@ -1,4 +1,4 @@
-from src.database import db
+from src.models.user import db
 from datetime import datetime
 
 class Gasto(db.Model):
@@ -26,4 +26,3 @@ class Gasto(db.Model):
             'valor': self.valor,
             'created_at': self.created_at.isoformat() if self.created_at else None
         }
-

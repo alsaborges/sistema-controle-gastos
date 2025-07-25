@@ -5,9 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory, session
 from flask_cors import CORS
-from src.database import db
-from src.models.user import User
-from src.models.investment import Gasto
+from src.models.user import db, User
 from src.routes.user import user_bp
 from src.routes.investment import gasto_bp
 
@@ -17,16 +15,15 @@ app.config['SECRET_KEY'] = 'sua_chave_secreta_muito_segura_aqui_123456789'
 # Habilitar CORS
 CORS(app, supports_credentials=True)
 
+app.register_blueprint(user_bp, url_prefix='/api/auth')
+app.register_blueprint(gasto_bp, url_prefix='/api')
+
 # Configuração do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(os.path.dirname(__file__), 'database', 'app.db')}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicializar banco de dados
 db.init_app(app)
-
-# Registrar blueprints
-app.register_blueprint(user_bp, url_prefix='/api/auth')
-app.register_blueprint(gasto_bp, url_prefix='/api')
 
 def create_initial_user():
     """Cria o usuário inicial se não existir"""
